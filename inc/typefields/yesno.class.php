@@ -200,6 +200,20 @@ class PluginMetademandsYesno extends CommonDBTM
         echo "</tr>";
     }
 
+	public static function updateMandatoryFile($fields_link, $name)
+	{
+		return "$('#metademands_wizard_red" . $fields_link . "').html('*');
+                                     $('[name =\"field[' + $fields_link + ']\"]').attr('required', 'required');
+                                     //Special case Upload field
+                                      sessionStorage.setItem('mandatoryfile$name', $fields_link);
+                                     " . PluginMetademandsFieldoption::checkMandatoryFile($fields_link, $name) . "
+                                   } else {
+                                      $('#metademands_wizard_red" . $fields_link . "').html('');
+                                      sessionStorage.setItem('hiddenlink$name', $fields_link);
+                                    " . PluginMetademandsFieldoption::resetMandatoryFieldsByField($name) . "
+                                   }";
+	}
+
     public static function getParamsValueToCheck($fieldoption, $item, $params)
     {
         $data[1] = __('No');
@@ -317,25 +331,18 @@ class PluginMetademandsYesno extends CommonDBTM
             $onchange .= "$('[name^=\"field[" . $data["id"] . "]\"]').change(function() {";
             $display = 0;
             foreach ($check_values as $idc => $check_value) {
-                foreach ($check_value['fields_link'] as $fields_link) {
+	            foreach ($check_value['fields_link'] as $fields_link) {
                     $val = Toolbox::addslashes_deep($idc);
 
                     if ($data["display_type"] == self::CLASSIC_DISPLAY) {
                         $onchange .= "if ($(this).val() == $val) {";
+	                    $onchange .= self::updateMandatoryFile($fields_link, $name);
                     } else {
-                        $onchange .= " if (this.checked) {";
+                        $onchange .= " if (this.checked && $idc == 2) {";
+	                    $onchange .= self::updateMandatoryFile($fields_link, $name);
+	                    $onchange .="if(!this.checked && $idc == 1){";
+	                    $onchange .= self::updateMandatoryFile($fields_link, $name);
                     }
-
-                    $onchange .= "$('#metademands_wizard_red" . $fields_link . "').html('*');
-                                     $('[name =\"field[' + $fields_link + ']\"]').attr('required', 'required');
-                                     //Special case Upload field
-                                      sessionStorage.setItem('mandatoryfile$name', $fields_link);
-                                     " . PluginMetademandsFieldoption::checkMandatoryFile($fields_link, $name) . "
-                                   } else {
-                                      $('#metademands_wizard_red" . $fields_link . "').html('');
-                                      sessionStorage.setItem('hiddenlink$name', $fields_link);
-                                    " . PluginMetademandsFieldoption::resetMandatoryFieldsByField($name) . "
-                                   }";
 
                     if (isset($data['value']) && $idc == $data['value']) {
                         $display = $fields_link;
