@@ -1537,7 +1537,7 @@ JAVASCRIPT
                     'name' => $name,
                     'right' => 'all',
                     'value' => $params['check_value'],
-                    'condition' => ["id" => $values],
+	                'condition' => [(new ITILCategory())::getTable().".id" => $values],
                     'display' => true,
                     'used' => $already_used,
                 ];
