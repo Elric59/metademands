@@ -317,10 +317,12 @@ class PluginMetademandsYesno extends CommonDBTM
         }
 
         if (count($check_values) > 0) {
+
             //Si la valeur est en session
-            if (isset($data['value']) &&  $data['value'] > 0) {
+            if ((isset($data['value']) && $data['value'] > 0)) {
                 if ($data["display_type"] == self::CLASSIC_DISPLAY) {
-                    $pre_onchange .= "$('[name=\"field[" . $id . "]\"]').val('" . $data['value'] . "').trigger('change');";
+	                $pre_onchange .= "$('[name=\"field[" . $id . "]\"]').val('" . $data['value'] . "').trigger('change');";
+
                 } else {
                     if ($data['value'] == 2) {
                         $pre_onchange .= "$('[name=\"field[" . $id . "]\"]').prop('checked', true).trigger('change');";
@@ -338,16 +340,20 @@ class PluginMetademandsYesno extends CommonDBTM
                         $onchange .= "if ($(this).val() == $val) {";
 	                    $onchange .= self::updateMandatoryFile($fields_link, $name);
                     } else {
-                        $onchange .= " if (this.checked && $idc == 2) {";
+                        $onchange .= "if (this.checked && $idc == 2) {";
 	                    $onchange .= self::updateMandatoryFile($fields_link, $name);
-	                    $onchange .="if(!this.checked && $idc == 1){";
+	                    $onchange .= "if(!this.checked && $idc == 1){";
 	                    $onchange .= self::updateMandatoryFile($fields_link, $name);
                     }
 
-                    if (isset($data['value']) && $idc == $data['value']) {
-                        $display = $fields_link;
-                    }
-                }
+		            if (
+			            (isset($data['value']) && $idc == $data['value'])
+			            || (isset($data['custom_values']) && !is_array($data['custom_values']) && $idc == 2)
+			            || (isset($data['custom_values']) && is_array($data['custom_values']) && $idc == 1)
+		            ) {
+			            $display = $fields_link;
+		            }
+	            }
             }
             $onchange .= "});";
 
