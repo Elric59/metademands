@@ -232,7 +232,7 @@ class PluginMetademandsDropdownmeta extends CommonDBTM
                     'name' => $nameitil . "_plugin_servicecatalog_itilcategories_id",
                     'right' => 'all',
                     'value' => $value,
-                    'condition' => ["id" => $values],
+	                'condition' => [(new ITILCategory())::getTable().".id" => $values],
                     'display' => false,
                     'readonly' => $readonly ?? false,
                     'class' => 'form-select itilmeta',
