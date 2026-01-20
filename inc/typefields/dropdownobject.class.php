@@ -512,8 +512,6 @@ class PluginMetademandsDropdownobject extends CommonDBTM
 						'display'   => false];
 				}
 
-
-
                 if (isset($data['readonly']) && $data['readonly'] == 1 && $data['item'] == "Entity") {
                     $opt['readonly'] = true;
                     if ($data['link_to_user'] == 0) {
