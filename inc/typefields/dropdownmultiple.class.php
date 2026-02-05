@@ -250,11 +250,12 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                 }
 
                 $custom_values = $data['custom_values'] ?? [];
-                if (count($custom_values) > 0 && ($data['item'] == "Appliance" || $data['item'] == "Group")) {
+                if (count($custom_values) > 0 && ($data['item'] == "Appliance"
+                        || $data['item'] == "Group")) {
                     $list = [];
                     foreach ($custom_values as $k => $custom_value) {
                         $app = new $data['item']();
-                        if ($app->getFromDB($custom_value)) {
+                        if (is_int($custom_value) && $app->getFromDB($custom_value)) {
                             $list[$custom_value] = $app->getName();
                         }
                     }
@@ -380,38 +381,38 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                                       },
                                       moveFromAtoB: function(Multiselect, $source, $destination, $options, event, silent, skipStack ) {
                                         let self = Multiselect;
-                        
+
                                         $options.each(function(index, option) {
                                             let $option = $(option);
-                        
+
                                             if (self.options.ignoreDisabled && $option.is(":disabled")) {
                                                 return true;
                                             }
-                        
+
                                             if ($option.is("optgroup") || $option.parent().is("optgroup")) {
                                                 let $sourceGroup = $option.is("optgroup") ? $option : $option.parent();
                                                 let optgroupSelector = "optgroup[" + self.options.matchOptgroupBy + "=\'" + $sourceGroup.prop(self.options.matchOptgroupBy) + "\']";
                                                 let $destinationGroup = $destination.find(optgroupSelector);
-                        
+
                                                 if (!$destinationGroup.length) {
                                                     $destinationGroup = $sourceGroup.clone(true);
                                                     $destinationGroup.empty();
-                        
+
                                                     $destination.move($destinationGroup);
                                                 }
-                        
+
                                                 if ($option.is("optgroup")) {
                                                     let disabledSelector = "";
-                        
+
                                                     if (self.options.ignoreDisabled) {
                                                         disabledSelector = ":not(:disabled)";
                                                     }
-                        
+
                                                     $destinationGroup.move($option.find("option" + disabledSelector));
                                                 } else {
                                                     $destinationGroup.move($option);
                                                 }
-                        
+
                                                 $sourceGroup.removeIfEmpty();
                                             } else {
                                                 $destination.move($option);
@@ -429,9 +430,9 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                                                     destOption.style.color="#555555";
                                                 }
                                             }
-                                        });                        
+                                        });
                                         return self;
-                                          
+
                                       }
                                   });
                             });'
@@ -744,7 +745,7 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                          $('select[name=\"checkbox_id\"]').val(),
                          $('select[name=\"check_type_value\"]').val()
                   ];
-                     
+
                      reloadviewOption(formOption);
                  });";
                 echo " </script>";
@@ -765,10 +766,10 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                          $('select[name=\"checkbox_id\"]').val(),
                          $('select[name=\"check_type_value\"]').val()
                   ];
-                     
+
                      reloadviewOption(formOption);
                  });
-                 
+
                  ";
 
 
@@ -1021,18 +1022,18 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                                 });
                                 promises.push(p);
                              });
-                             
-                             
-                             
-                             
-                        
+
+
+
+
+
                             ";
                         } else {
 
                             $onchange .= "
                                 $.each($(this).val(), function( keys, values ) {
                                     if (values != 0 && (values == $idc || $idc == 0 )) {
-                                        tohide[$fields_link] = false;   
+                                        tohide[$fields_link] = false;
                                     }
                                 });
                             ";
@@ -1555,16 +1556,13 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                     foreach ($check_value['hidden_link'] as $hidden_link) {
 
                         //                    $onchange .= "$.each($(this).siblings('span.select2').children().find('li.select2-selection__choice'), function( keys, values ) {";
-                        $onchange .= "
-                        
-                       $.each($(this).val(), function( keys, values ) {
-                       iswrittemul = true;
+                        $onchange .= "$.each($(this).val(), function( keys, values ) {
+                            iswrittemul = true;
                             if ($hidden_link in tohide) {
                             } else {
                                 tohide[$hidden_link] = true;
                             }
-                            });
-                           ";
+                        });";
                     }
                 }
 
@@ -1576,7 +1574,7 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                             $onchange .= "
                             var answerresponse = false;
                             let promises = [];
-                            
+
                              $.each($('[name^=\"field[" . $data["id"] . "]\"] option:selected'), function() {
                                 let p = $.ajax({
                                     url: '" . PLUGIN_METADEMANDS_WEBDIR . "/ajax/validregex.php',
@@ -1590,17 +1588,17 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                                     }
                                 });
                                 promises.push(p);
-                                
+
                              });
-                             
-                        
+
+
                             ";
                         } else {
 
                             $onchange .= "
                                $.each($(this).val(), function( keys, values ) {
                                     if (values != 0 && (values == $idc || $idc == 0 )) {
-                                        tohide[$hidden_link] = false;   
+                                        tohide[$hidden_link] = false;
                                     }
                                 });
                             ";
@@ -1950,16 +1948,16 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                                 });
                                 promises.push(p);
                              });
-                             
-                             
-                        
+
+
+
                             ";
                         } else {
 
                             $script .= "
                                 $.each($(this).val(), function( keys, values ) {
                                     if (values != 0 && (values == $idc || $idc == 0 )) {
-                                        tohide[$hidden_block] = false;   
+                                        tohide[$hidden_block] = false;
                                     }
                                 });
                             ";
@@ -2291,7 +2289,7 @@ class PluginMetademandsDropdownmultiple extends CommonDBTM
                 //                $script .= "$.each($('#multiselectfield" . $data["id"] . "_to').children(), function( key, value ) {";
 
                 if (isset($checkbox_id) && $checkbox_id > 0) {
-                    $script .= " 
+                    $script .= "
                            if($(this).val() == '$idc'){
                               document.getElementById('field[$checkbox_id][$checkbox_value]').checked=true;
                            }

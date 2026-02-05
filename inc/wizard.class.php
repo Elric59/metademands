@@ -236,7 +236,21 @@ class PluginMetademandsWizard extends CommonDBTM
         echo "<div class='aspect-ratio-1' style='margin-top: 5px;margin-left: 10px;width: 70px;height: 70px;'>";
 
         $meta = new PluginMetademandsMetademand();
+        $config = PluginMetademandsConfig::getInstance();
         if ($meta->getFromDB($parameters['metademands_id'])) {
+        if (!empty($config['icon_incident']) && $meta->fields['type'] == Ticket::INCIDENT_TYPE) {
+            $icon = $config['icon_incident'];
+        }
+        if (!empty($config['icon_request']) && $meta->fields['type'] == Ticket::DEMAND_TYPE) {
+            $icon = $config['icon_request'];
+        }
+        if (!empty($config['icon_problem']) && $meta->fields['type'] == "Problem") {
+            $icon = $config['icon_problem'];
+        }
+        if (!empty($config['icon_change']) && $meta->fields['type'] == "Change") {
+            $icon = $config['icon_change'];
+        }
+
             if (isset($meta->fields['icon']) && !empty($meta->fields['icon'])) {
                 $icon = $meta->fields['icon'];
             }
@@ -245,11 +259,11 @@ class PluginMetademandsWizard extends CommonDBTM
         $stylespan = "md-cat-icon-stack";
         $sizespan = "1em";
         $color = "color:$title_color";
-        echo "<span class='$stylespan' style='font-size:1.5em'><i class='ti ti-circle' style='$color;'></i>";
         if (!empty($icon)) {
+            echo "<span class='$stylespan' style='font-size:1.5em'><i class='ti ti-circle' style='$color;'></i>";
             echo "<i class='fa-1x fas $icon' style=\"$color;font-family:'Font Awesome 6 Free', 'Font Awesome 6 Brands';font-size: $sizespan;\"></i>&nbsp;";
+            echo "</span>";
         }
-        echo "</span>";
         echo "</div>";
         echo "<div class='ms-4' style='width: 90%;'>";
         echo "<h2 class='card-title mb-2 text-break' $style_title_color>";

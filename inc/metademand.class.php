@@ -1391,7 +1391,7 @@ JAVASCRIPT
             'metademands'
         );
 
-        echo "<br><br><form name='task_form' id='task_form' method='post' 
+        echo "<br><br><form name='task_form' id='task_form' method='post'
                action='" . Toolbox::getItemTypeFormURL(__CLASS__) . "'>";
         echo Html::submit(_sx('button', 'Duplicate'), ['name' => 'execute', 'class' => 'btn btn-primary']);
         echo Html::hidden('_method', ['value' => 'Duplicate']);
@@ -1731,14 +1731,14 @@ JAVASCRIPT
             $type = $options['type'];
         }
         if ($type == Ticket::INCIDENT_TYPE || $type == Ticket::DEMAND_TYPE) {
-            $condition = "1 AND `" . $this->getTable() . "`.`type` = '$type' 
-                        AND `is_active` = 1 
-                        AND `is_deleted` = 0 
+            $condition = "1 AND `" . $this->getTable() . "`.`type` = '$type'
+                        AND `is_active` = 1
+                        AND `is_deleted` = 0
                         AND `is_template` = 0 ";
         } else {
-            $condition = "1 AND `" . $this->getTable() . "`.`object_to_create` = '$type' 
-                        AND `is_active` = 1 
-                        AND `is_deleted` = 0 
+            $condition = "1 AND `" . $this->getTable() . "`.`object_to_create` = '$type'
+                        AND `is_active` = 1
+                        AND `is_deleted` = 0
                         AND `is_template` = 0 ";
         }
 
@@ -1749,8 +1749,8 @@ JAVASCRIPT
         }
 
         if (!empty($type) || $forceview) {
-            $query = "SELECT `" . $this->getTable() . "`.`name`, 
-                          `" . $this->getTable() . "`.`id`, 
+            $query = "SELECT `" . $this->getTable() . "`.`name`,
+                          `" . $this->getTable() . "`.`id`,
                           `glpi_entities`.`completename` as entities_name
                    FROM " . $this->getTable() . "
                    INNER JOIN `glpi_entities`
@@ -5438,11 +5438,13 @@ JAVASCRIPT
                                                     $user = new User();
                                                     $user->getFromDB($usr);
                                                     $v = $user->fields['name'];
-                                                    $value['value'] = str_replace(
-                                                        "#" . $title . "#",
-                                                        $v,
-                                                        $value['value']
-                                                    );
+                                                    if (!empty($v)) {
+                                                        $value['value'] = str_replace(
+                                                            "#" . $title . "#",
+                                                            $v,
+                                                            $value['value']
+                                                        );
+                                                    }
                                                 }
                                                 break;
                                             case "requester.name":
@@ -5450,11 +5452,13 @@ JAVASCRIPT
                                                     $user = new User();
                                                     $user->getFromDB($usr);
                                                     $v = $user->fields['realname'];
-                                                    $value['value'] = str_replace(
-                                                        "#" . $title . "#",
-                                                        $v,
-                                                        $value['value']
-                                                    );
+                                                    if (!empty($v)) {
+                                                        $value['value'] = str_replace(
+                                                            "#" . $title . "#",
+                                                            $v,
+                                                            $value['value']
+                                                        );
+                                                    }
                                                 }
                                                 break;
                                             case "requester.firstname":
@@ -5462,11 +5466,14 @@ JAVASCRIPT
                                                     $user = new User();
                                                     $user->getFromDB($usr);
                                                     $v = $user->fields['firstname'];
-                                                    $value['value'] = str_replace(
-                                                        "#" . $title . "#",
-                                                        $v,
-                                                        $value['value']
-                                                    );
+                                                    if (!empty($v)) {
+                                                        $value['value'] = str_replace(
+                                                            "#" . $title . "#",
+                                                            $v,
+                                                            $value['value']
+                                                        );
+                                                    }
+
                                                 }
                                                 break;
                                             case "requester.email":
@@ -5474,11 +5481,13 @@ JAVASCRIPT
                                                     $user = new UserEmail();
                                                     $user->getFromDBByCrit(['users_id' => $usr, 'is_default' => 1]);
                                                     $v = $user->fields['email'];
-                                                    $value['value'] = str_replace(
-                                                        "#" . $title . "#",
-                                                        $v,
-                                                        $value['value']
-                                                    );
+                                                    if (!empty($v)) {
+                                                        $value['value'] = str_replace(
+                                                            "#" . $title . "#",
+                                                            $v,
+                                                            $value['value']
+                                                        );
+                                                    }
                                                 }
                                                 break;
                                             case "entity":
@@ -5626,7 +5635,9 @@ JAVASCRIPT
                                             $user = new User();
                                             $user->getFromDB($usr);
                                             $v = $user->fields['name'];
-                                            $value['value'] = str_replace("#" . $title . "#", $v, $value['value']);
+                                            if (!empty($v)) {
+                                                $value['value'] = str_replace("#" . $title . "#", $v, $value['value']);
+                                            }
                                         }
                                         break;
                                     case "requester.name":
@@ -5634,7 +5645,9 @@ JAVASCRIPT
                                             $user = new User();
                                             $user->getFromDB($usr);
                                             $v = $user->fields['realname'];
-                                            $value['value'] = str_replace("#" . $title . "#", $v, $value['value']);
+                                            if (!empty($v)) {
+                                                $value['value'] = str_replace("#" . $title . "#", $v, $value['value']);
+                                            }
                                         }
                                         break;
                                     case "requester.firstname":
@@ -5642,7 +5655,9 @@ JAVASCRIPT
                                             $user = new User();
                                             $user->getFromDB($usr);
                                             $v = $user->fields['firstname'];
-                                            $value['value'] = str_replace("#" . $title . "#", $v, $value['value']);
+                                            if (!empty($v)) {
+                                                $value['value'] = str_replace("#" . $title . "#", $v, $value['value']);
+                                            }
                                         }
                                         break;
                                     case "requester.email":
@@ -5650,7 +5665,9 @@ JAVASCRIPT
                                             $user = new UserEmail();
                                             $user->getFromDBByCrit(['users_id' => $usr, 'is_default' => 1]);
                                             $v = $user->fields['email'];
-                                            $value['value'] = str_replace("#" . $title . "#", $v, $value['value']);
+                                            if (!empty($v)) {
+                                                $value['value'] = str_replace("#" . $title . "#", $v, $value['value']);
+                                            }
                                         }
                                         break;
                                     case "entity":
@@ -7825,17 +7842,17 @@ JAVASCRIPT
                                             let url = window.URL.createObjectURL(blob);
                                             let link = document.createElement('a');
                                             link.href = url;
-                                
+
                                             const contentDisposition = xhr.getResponseHeader('Content-Disposition');
                                             let filename = 'export_' + new Date().toISOString().slice(0, 10) + '.zip';
-                                
+
                                             if (contentDisposition) {
                                                 let matches = contentDisposition.match(/filename[^;=\\n]*=((['\"]).*?\\2|[^;\\n]*)/);
                                                 if (matches != null && matches[1]) {
                                                     filename = matches[1].replace(/['\"]/g, '');
                                                 }
                                             }
-                                
+
                                             link.download = filename;
                                             document.body.appendChild(link);
                                             link.click();
@@ -7844,9 +7861,9 @@ JAVASCRIPT
                                             window.URL.revokeObjectURL(url);
                                             document.body.removeChild(link);
                                     }
-                                }) 
+                                })
                             })
-                        }) 
+                        })
                     </script>";
                     return true;
                 }
@@ -8058,7 +8075,7 @@ JAVASCRIPT
         $get_running_parents_tickets_meta =
             "SELECT COUNT(`glpi_plugin_metademands_tickets_metademands`.`id`) as 'total_running' FROM `glpi_plugin_metademands_tickets_metademands`
                         LEFT JOIN `glpi_tickets` ON `glpi_tickets`.`id` =  `glpi_plugin_metademands_tickets_metademands`.`tickets_id` WHERE
-                            `glpi_tickets`.`is_deleted` = 0 AND `glpi_tickets`.`status` NOT IN ('" . Ticket::CLOSED . "','" . Ticket::SOLVED . "') AND `glpi_plugin_metademands_tickets_metademands`.`status` =  
+                            `glpi_tickets`.`is_deleted` = 0 AND `glpi_tickets`.`status` NOT IN ('" . Ticket::CLOSED . "','" . Ticket::SOLVED . "') AND `glpi_plugin_metademands_tickets_metademands`.`status` =
                                     " . PluginMetademandsTicket_Metademand::RUNNING . " " .
             $dbu->getEntitiesRestrictRequest('AND', 'glpi_tickets');
 
@@ -8117,10 +8134,10 @@ JAVASCRIPT
             "SELECT COUNT(DISTINCT(`glpi_plugin_metademands_tickets_metademands`.`id`)) as 'total_running' FROM `glpi_tickets`
                         LEFT JOIN `glpi_plugin_metademands_tickets_metademands` ON `glpi_tickets`.`id` =  `glpi_plugin_metademands_tickets_metademands`.`tickets_id`
                          LEFT JOIN `glpi_plugin_metademands_tickets_tasks`  ON (`glpi_tickets`.`id` = `glpi_plugin_metademands_tickets_tasks`.`parent_tickets_id` )
-                         LEFT JOIN `glpi_groups_tickets` AS glpi_groups_tickets_metademands 
-                             ON (`glpi_plugin_metademands_tickets_tasks`.`tickets_id` = `glpi_groups_tickets_metademands`.`tickets_id` AND `glpi_groups_tickets_metademands`.`type` = '" . CommonITILActor::ASSIGN . "') 
+                         LEFT JOIN `glpi_groups_tickets` AS glpi_groups_tickets_metademands
+                             ON (`glpi_plugin_metademands_tickets_tasks`.`tickets_id` = `glpi_groups_tickets_metademands`.`tickets_id` AND `glpi_groups_tickets_metademands`.`type` = '" . CommonITILActor::ASSIGN . "')
                          LEFT JOIN `glpi_groups` AS glpi_groups_metademands ON (`glpi_groups_tickets_metademands`.`groups_id` = `glpi_groups_metademands`.`id` ) WHERE
-                            `glpi_tickets`.`is_deleted` = 0 AND `glpi_plugin_metademands_tickets_metademands`.`status` =  
+                            `glpi_tickets`.`is_deleted` = 0 AND `glpi_plugin_metademands_tickets_metademands`.`status` =
                                     " . PluginMetademandsTicket_Metademand::RUNNING . " AND (`glpi_groups_metademands`.`id` IN ('" . implode(
                 "','",
                 $_SESSION['glpigroups']
@@ -8187,7 +8204,7 @@ JAVASCRIPT
         $get_closed_parents_tickets_meta =
             "SELECT COUNT(`glpi_plugin_metademands_tickets_metademands`.`id`) as 'total_to_closed' FROM `glpi_plugin_metademands_tickets_metademands`
                         LEFT JOIN `glpi_tickets` ON `glpi_tickets`.`id` =  `glpi_plugin_metademands_tickets_metademands`.`tickets_id` WHERE
-                            `glpi_tickets`.`is_deleted` = 0 AND `glpi_tickets`.`status` NOT IN ('" . Ticket::CLOSED . "','" . Ticket::SOLVED . "') AND `glpi_plugin_metademands_tickets_metademands`.`status` =  
+                            `glpi_tickets`.`is_deleted` = 0 AND `glpi_tickets`.`status` NOT IN ('" . Ticket::CLOSED . "','" . Ticket::SOLVED . "') AND `glpi_plugin_metademands_tickets_metademands`.`status` =
                                     " . PluginMetademandsTicket_Metademand::TO_CLOSED . " " .
             $dbu->getEntitiesRestrictRequest('AND', 'glpi_tickets');
 
@@ -8242,9 +8259,9 @@ JAVASCRIPT
         ];
 
         $get_to_validated_meta =
-            "SELECT COUNT(`glpi_plugin_metademands_metademandvalidations`.`id`) as 'total_to_validated' 
+            "SELECT COUNT(`glpi_plugin_metademands_metademandvalidations`.`id`) as 'total_to_validated'
           FROM `glpi_plugin_metademands_metademandvalidations`
-         LEFT JOIN `glpi_tickets` ON `glpi_tickets`.`id` =  `glpi_plugin_metademands_metademandvalidations`.`tickets_id` 
+         LEFT JOIN `glpi_tickets` ON `glpi_tickets`.`id` =  `glpi_plugin_metademands_metademandvalidations`.`tickets_id`
          WHERE  `glpi_tickets`.`is_deleted` = 0 AND `glpi_tickets`.`status` NOT IN ('" . Ticket::CLOSED . "','" . Ticket::SOLVED . "')
            AND `glpi_plugin_metademands_metademandvalidations`.`validate` IN (" . PluginMetademandsMetademandValidation::TO_VALIDATE . "," . PluginMetademandsMetademandValidation::TO_VALIDATE_WITHOUTTASK . ")" .
             $dbu->getEntitiesRestrictRequest('AND', 'glpi_tickets');

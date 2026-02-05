@@ -780,7 +780,8 @@ select.chained-select {
     display: inline-block;
     position: relative;
     vertical-align: middle;
-    width: 1.3em;
+    width: 70px;
+    height: 70px;
 
     i {
         font-size: 3em;

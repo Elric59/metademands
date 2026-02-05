@@ -450,7 +450,7 @@ JAVASCRIPT
                          $('select[name=\"checkbox_id\"]').val(),
                          0
                   ];
-                     
+
                      reloadviewOption(formOption);
                  });";
 
@@ -566,12 +566,12 @@ JAVASCRIPT
             $onchange .= "var tohide = {};";
             $display = [];
 
-            foreach ($check_values as $idc => $check_value) {
-                foreach ($check_value['fields_link'] as $fields_link) {
-                    $onchange .= " if ($fields_link in tohide) {} else {tohide[$fields_link] = true;}
-                    ";
-                }
-            }
+//            foreach ($check_values as $idc => $check_value) {
+//                foreach ($check_value['fields_link'] as $fields_link) {
+//                    $onchange .= " if ($fields_link in tohide) {} else {tohide[$fields_link] = true;}
+//                    ";
+//                }
+//            }
 
             foreach ($check_values as $idc => $check_value) {
                 foreach ($check_value['fields_link'] as $fields_link) {
@@ -628,13 +628,12 @@ JAVASCRIPT
                     $onchange .= "if ($(this).val() == $idc) {
                                 var iswrittefields = false;
                                 $.each( $('[name^=\"field[" . $data["id"] . "]\"]:checked'),function( index, value ){
-                                    
-                                        tohide[$fields_link] = false;
+                                    tohide[$fields_link] = false;
                                     iswrittefields = true;
                                 });
-                                if (!iswrittefields) {
-                                tohide[$fields_link] = true;
-                            }
+                                $.each( $('[name^=\"field[" . $data["id"] . "]\"]:not(:checked)'),function( index, value ){
+                                    tohide[$fields_link] = true;
+                                });
                             }";
 
 
@@ -854,12 +853,12 @@ JAVASCRIPT
             $onchange .= "var tohide = {};";
             $display = [];
 
-            foreach ($check_values as $idc => $check_value) {
-                foreach ($check_value['hidden_link'] as $hidden_link) {
-                    $onchange .= " if ($hidden_link in tohide) {} else {tohide[$hidden_link] = true;}
-                    ";
-                }
-            }
+//            foreach ($check_values as $idc => $check_value) {
+//                foreach ($check_value['hidden_link'] as $hidden_link) {
+//                    $onchange .= " if ($hidden_link in tohide) {} else {tohide[$hidden_link] = true;}
+//                    ";
+//                }
+//            }
 
             foreach ($check_values as $idc => $check_value) {
                 foreach ($check_value['hidden_link'] as $hidden_link) {
@@ -871,7 +870,7 @@ JAVASCRIPT
 
             foreach ($check_values as $idc => $check_value) {
                 foreach ($check_value['hidden_link'] as $hidden_link) {
-                    $onchange .= " if (this.checked){";
+                    $onchange .= " if (this.checked) {";
                     //                                        foreach ($hidden_link as $key => $fields) {
 //                    $onchange .= " if ($(this).val() == $idc || $idc == -1) {
 //                            if ($hidden_link in tohide) {
@@ -891,7 +890,8 @@ JAVASCRIPT
                     }
 
                     $onchange .= "
-                    $.each( tohide, function( key, value ) {                      
+                    $.each( tohide, function( key, value ) {
+
                             if (value == true) {
                             $('[id-field =\"field'+key+'\"]').hide();
                                sessionStorage.setItem('hiddenlink$name', key);
@@ -903,18 +903,16 @@ JAVASCRIPT
 
                     $onchange .= "} else {";
                     //not checked
-                    $onchange .= "if($(this).val() == $idc){
-                            
+                    $onchange .= "if ($(this).val() == $idc) {
+
                             var iswritte = false;
                             $.each( $('[name^=\"field[" . $data["id"] . "]\"]:checked'),function( index, value ){
-                                
-                                    tohide[$hidden_link] = false;
-                                    iswritte = true;
-                                
+                                tohide[$hidden_link] = false;
+                                iswritte = true;
                             });
-                            if (!iswritte) {
-                                tohide[$hidden_link] = true;
-                            }
+                            $.each( $('[name^=\"field[" . $data["id"] . "]\"]:not(:checked)'),function( index, value ){
+                                    tohide[$hidden_link] = true;
+                                });
                         }";
 
                     $onchange .= "$.each( tohide, function( key, value ) {
