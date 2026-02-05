@@ -578,12 +578,12 @@ class Checkbox extends CommonDBTM
             $onchange .= "var tohide = {};";
             $display = [];
 
-            foreach ($check_values as $idc => $check_value) {
-                foreach ($check_value['fields_link'] as $fields_link) {
-                    $onchange .= " if ($fields_link in tohide) {} else {tohide[$fields_link] = true;}
-                    ";
-                }
-            }
+//            foreach ($check_values as $idc => $check_value) {
+//                foreach ($check_value['fields_link'] as $fields_link) {
+//                    $onchange .= " if ($fields_link in tohide) {} else {tohide[$fields_link] = true;}
+//                    ";
+//                }
+//            }
 
             foreach ($check_values as $idc => $check_value) {
                 foreach ($check_value['fields_link'] as $fields_link) {
@@ -638,13 +638,12 @@ class Checkbox extends CommonDBTM
                     $onchange .= "if ($(this).val() == $idc) {
                                 var iswrittefields = false;
                                 $.each( $('[name^=\"field[" . $data["id"] . "]\"]:checked'),function( index, value ){
-
-                                        tohide[$fields_link] = false;
+                                    tohide[$fields_link] = false;
                                     iswrittefields = true;
                                 });
-                                if (!iswrittefields) {
-                                tohide[$fields_link] = true;
-                            }
+                                $.each( $('[name^=\"field[" . $data["id"] . "]\"]:not(:checked)'),function( index, value ){
+                                    tohide[$fields_link] = true;
+                                });
                             }";
 
 
@@ -866,12 +865,12 @@ class Checkbox extends CommonDBTM
             $onchange .= "var tohide = {};";
             $display = [];
 
-            foreach ($check_values as $idc => $check_value) {
-                foreach ($check_value['hidden_link'] as $hidden_link) {
-                    $onchange .= " if ($hidden_link in tohide) {} else {tohide[$hidden_link] = true;}
-                    ";
-                }
-            }
+//            foreach ($check_values as $idc => $check_value) {
+//                foreach ($check_value['hidden_link'] as $hidden_link) {
+//                    $onchange .= " if ($hidden_link in tohide) {} else {tohide[$hidden_link] = true;}
+//                    ";
+//                }
+//            }
 
             foreach ($check_values as $idc => $check_value) {
                 foreach ($check_value['hidden_link'] as $hidden_link) {
@@ -916,17 +915,16 @@ class Checkbox extends CommonDBTM
 
                     $onchange .= "} else {";
                     //not checked
-                    $onchange .= "if($(this).val() == $idc){
-                           var iswritte = false;
+                    $onchange .= "if ($(this).val() == $idc) {
+
+                            var iswritte = false;
                             $.each( $('[name^=\"field[" . $data["id"] . "]\"]:checked'),function( index, value ){
-
-                                    tohide[$hidden_link] = false;
-                                    iswritte = true;
-
+                                tohide[$hidden_link] = false;
+                                iswritte = true;
                             });
-                            if (!iswritte) {
-                                tohide[$hidden_link] = true;
-                            }
+                            $.each( $('[name^=\"field[" . $data["id"] . "]\"]:not(:checked)'),function( index, value ){
+                                    tohide[$hidden_link] = true;
+                                });
                         }";
 
                     $onchange .= "$.each( tohide, function( key, value ) {

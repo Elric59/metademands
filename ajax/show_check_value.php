@@ -40,11 +40,12 @@ Html::header_nocache();
 Session::checkLoginUser();
 
 $show_check_value = true;
-if(isset($_POST['show_condition'])){
-    if($_POST['show_condition'] == Condition::SHOW_CONDITION_EMPTY){
+
+if (isset($_POST['show_condition'])) {
+    if ($_POST['show_condition'] == Condition::SHOW_CONDITION_EMPTY) {
         echo __('Empty', 'metademands');
         $show_check_value = false;
-    } else if($_POST['show_condition'] == Condition::SHOW_CONDITION_NOTEMPTY){
+    } elseif ($_POST['show_condition'] == Condition::SHOW_CONDITION_NOTEMPTY) {
         echo __('Not empty', 'metademands');
         $show_check_value = false;
     }

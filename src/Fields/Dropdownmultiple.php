@@ -271,7 +271,7 @@ class Dropdownmultiple extends CommonDBTM
                     $list = [];
                     foreach ($custom_values as $k => $custom_value) {
                         $app = new $data['item']();
-                        if ($app->getFromDB($custom_value)) {
+                        if (is_int($custom_value) && $app->getFromDB($custom_value)) {
                             $list[$custom_value] = $app->getName();
                         }
                     }

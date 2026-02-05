@@ -748,7 +748,8 @@ select.chained-select {
     display: inline-block;
     position: relative;
     vertical-align: middle;
-    width: 1.3em;
+    width: 70px;
+    height: 70px;
 
     i {
         font-size: 3em;
@@ -780,4 +781,12 @@ select.chained-select {
             font-size: 1em;
         }
     }
+}
+
+.mobile-only { display: none; }
+.desktop-only { display: inline; }
+
+@media (max-width: 768px) {
+    .mobile-only { display: inline; }
+    .desktop-only { display: none; }
 }

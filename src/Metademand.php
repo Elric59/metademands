@@ -5832,11 +5832,13 @@ class Metademand extends CommonDBTM implements ServiceCatalogLeafInterface
                                                     $user = new User();
                                                     $user->getFromDB($usr);
                                                     $v = $user->fields['name'];
-                                                    $value['value'] = str_replace(
-                                                        "#" . $title . "#",
-                                                        $v,
-                                                        $value['value']
-                                                    );
+                                                    if (!empty($v)) {
+                                                        $value['value'] = str_replace(
+                                                            "#" . $title . "#",
+                                                            $v,
+                                                            $value['value']
+                                                        );
+                                                    }
                                                 }
                                                 break;
                                             case "requester.name":
@@ -5844,11 +5846,13 @@ class Metademand extends CommonDBTM implements ServiceCatalogLeafInterface
                                                     $user = new User();
                                                     $user->getFromDB($usr);
                                                     $v = $user->fields['realname'];
-                                                    $value['value'] = str_replace(
-                                                        "#" . $title . "#",
-                                                        $v,
-                                                        $value['value']
-                                                    );
+                                                    if (!empty($v)) {
+                                                        $value['value'] = str_replace(
+                                                            "#" . $title . "#",
+                                                            $v,
+                                                            $value['value']
+                                                        );
+                                                    }
                                                 }
                                                 break;
                                             case "requester.firstname":
@@ -5856,11 +5860,13 @@ class Metademand extends CommonDBTM implements ServiceCatalogLeafInterface
                                                     $user = new User();
                                                     $user->getFromDB($usr);
                                                     $v = $user->fields['firstname'];
-                                                    $value['value'] = str_replace(
-                                                        "#" . $title . "#",
-                                                        $v,
-                                                        $value['value']
-                                                    );
+                                                    if (!empty($v)) {
+                                                        $value['value'] = str_replace(
+                                                            "#" . $title . "#",
+                                                            $v,
+                                                            $value['value']
+                                                        );
+                                                    }
                                                 }
                                                 break;
                                             case "requester.email":
@@ -5868,11 +5874,13 @@ class Metademand extends CommonDBTM implements ServiceCatalogLeafInterface
                                                     $user = new UserEmail();
                                                     $user->getFromDBByCrit(['users_id' => $usr, 'is_default' => 1]);
                                                     $v = $user->fields['email'];
-                                                    $value['value'] = str_replace(
-                                                        "#" . $title . "#",
-                                                        $v,
-                                                        $value['value']
-                                                    );
+                                                    if (!empty($v)) {
+                                                        $value['value'] = str_replace(
+                                                            "#" . $title . "#",
+                                                            $v,
+                                                            $value['value']
+                                                        );
+                                                    }
                                                 }
                                                 break;
                                             case "entity":
@@ -5931,7 +5939,9 @@ class Metademand extends CommonDBTM implements ServiceCatalogLeafInterface
                                                         $user = new User();
                                                         $user->getFromDB($usr);
                                                         $v = $user->fields['name'];
-                                                        $str = str_replace("#" . $title . "#", $v, $str);
+                                                        if (!empty($v)) {
+                                                            $str = str_replace("#" . $title . "#", $v, $str);
+                                                        }
                                                     }
                                                     break;
                                                 case "requester.name":
@@ -5939,7 +5949,9 @@ class Metademand extends CommonDBTM implements ServiceCatalogLeafInterface
                                                         $user = new User();
                                                         $user->getFromDB($usr);
                                                         $v = $user->fields['realname'];
-                                                        $str = str_replace("#" . $title . "#", $v, $str);
+                                                        if (!empty($v)) {
+                                                            $str = str_replace("#" . $title . "#", $v, $str);
+                                                        }
                                                     }
                                                     break;
                                                 case "requester.firstname":
@@ -5947,7 +5959,9 @@ class Metademand extends CommonDBTM implements ServiceCatalogLeafInterface
                                                         $user = new User();
                                                         $user->getFromDB($usr);
                                                         $v = $user->fields['firstname'];
-                                                        $str = str_replace("#" . $title . "#", $v, $str);
+                                                        if (!empty($v)) {
+                                                            $str = str_replace("#" . $title . "#", $v, $str);
+                                                        }
                                                     }
                                                     break;
                                                 case "requester.email":
@@ -5955,7 +5969,9 @@ class Metademand extends CommonDBTM implements ServiceCatalogLeafInterface
                                                         $user = new UserEmail();
                                                         $user->getFromDBByCrit(['users_id' => $usr, 'is_default' => 1]);
                                                         $v = $user->fields['email'];
-                                                        $str = str_replace("#" . $title . "#", $v, $str);
+                                                        if (!empty($v)) {
+                                                            $str = str_replace("#" . $title . "#", $v, $str);
+                                                        }
                                                     }
                                                     break;
                                                 case "entity":

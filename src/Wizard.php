@@ -258,6 +258,21 @@ class Wizard extends CommonDBTM
         echo "<section class='card-body' style='width: 100%;padding: 12px!important;'>";//height: 80px;
         echo "<div class='d-flex'>";
 
+        $config = Config::getInstance();
+
+        if (!empty($config['icon_incident']) && $meta->fields['type'] == \Ticket::INCIDENT_TYPE) {
+            $icon = $config['icon_incident'];
+        }
+        if (!empty($config['icon_request']) && $meta->fields['type'] == \Ticket::DEMAND_TYPE) {
+            $icon = $config['icon_request'];
+        }
+        if (!empty($config['icon_problem']) && $meta->fields['type'] == "Problem") {
+            $icon = $config['icon_problem'];
+        }
+        if (!empty($config['icon_change']) && $meta->fields['type'] == "Change") {
+            $icon = $config['icon_change'];
+        }
+
         if (isset($meta->fields['icon']) && !empty($meta->fields['icon'])) {
             $icon = $meta->fields['icon'];
         }

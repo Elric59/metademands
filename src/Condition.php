@@ -37,6 +37,7 @@ use CommonITILObject;
 use DBConnection;
 use DbUtils;
 use Glpi\RichText\RichText;
+use GlpiPlugin\Metademands\Fields\Dropdown;
 use GlpiPlugin\Metademands\Fields\Yesno;
 use Html;
 use ITILCategory;
@@ -213,6 +214,8 @@ class Condition extends CommonDBChild
             $enumConditions = [
                 self::SHOW_CONDITION_EQ => '=',
                 self::SHOW_CONDITION_NE => '≠',
+                self::SHOW_CONDITION_EMPTY => __('Empty', 'metademands'),
+                self::SHOW_CONDITION_NOTEMPTY => __('Not empty', 'metademands'),
             ];
         } elseif (in_array($type, $text_types)) {
             $enumConditions = [
@@ -432,7 +435,7 @@ class Condition extends CommonDBChild
                 );
                 $dropdown_fields = [];
                 foreach ($fields as $f) {
-                    $dropdown_fields[$f['id']] = addslashes($f['name']) . " (" . $f['id'] . ") ";
+                    $dropdown_fields[$f['id']] = stripslashes($f['name']) . " (" . $f['id'] . ") ";
                 }
                 echo Html::hidden('_glpi_csrf_token', ['value' => Session::getNewCSRFToken()]);
                 echo Html::hidden('plugin_metademands_metademands_id', ['value' => $item->fields['id']]);
@@ -523,7 +526,7 @@ class Condition extends CommonDBChild
         $canedit = $item->can($item->fields['id'], UPDATE);
 
         if ($canedit) {
-            echo "<div id='viewcondition" . $item->getType() . $item->getID() . "$rand'></div>\n";
+            echo "<div id='viewcondition" . $item->getID() . "$rand'></div>\n";
         }
         $self = new self();
         $allConditions = [];
@@ -542,7 +545,7 @@ class Condition extends CommonDBChild
             echo "<th colspan='3'>" . __("List of conditions", 'metademands') . "</th></tr><tr>";
             if ($canedit) {
                 echo "<th width='10'>";
-                echo Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand);
+                echo Html::getCheckAllAsCheckbox('massMetaCondition' . $rand);
                 echo "</th>";
             }
             echo "<th> " . __('ID') . " </th>";
@@ -967,7 +970,7 @@ class Condition extends CommonDBChild
         );
         $dropdown_fields = [];
         foreach ($fields as $f) {
-            $dropdown_fields[$f['id']] = $f['name'] . " (" . $f['id'] . ") ";
+            $dropdown_fields[$f['id']] = stripslashes($f['name']) . " (" . $f['id'] . ") ";
         }
         echo "<form name = 'form' method='post' action='" . Toolbox::getItemTypeFormURL(
             Condition::class
@@ -1273,6 +1276,7 @@ class Condition extends CommonDBChild
                         if ($ID > 0) {
                             $option['value'] = $condition->fields['check_value'];
                         }
+//                        $choice[0] = \Dropdown::EMPTY_VALUE;
                         $choice[1] = __('No');
                         $choice[2] = __('Yes');
                         \Dropdown::showFromArray(
