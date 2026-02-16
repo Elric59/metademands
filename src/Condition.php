@@ -792,19 +792,20 @@ class Condition extends CommonDBChild
         $conditions = $dbu->getAllDataFromTable('glpi_plugin_metademands_conditions', $criterias);
         if (count($conditions) > 0) {
             foreach ($conditions as $cond) {
-                $field->getFromDB($cond['plugin_metademands_fields_id']);
-                $tab[$cond['id']] = [
-                    'conditions_id' => $cond['id'],
-                    'type' => $field->fields['type'],
-                    'check_value' => $cond['check_value'],
-                    'item' => $cond['item'],
-                    'items_id' => $cond['items_id'],
-                    'show_logic' => $cond['show_logic'],
-                    'show_condition' => $cond['show_condition'],
-                    'plugin_metademands_fields_id' => $cond['plugin_metademands_fields_id'],
-                    'fields_id' => $cond['plugin_metademands_fields_id'],
-                    'order' => $cond['order'],
-                ];
+                if ($field->getFromDB($cond['plugin_metademands_fields_id'])) {
+                    $tab[$cond['id']] = [
+                        'conditions_id' => $cond['id'],
+                        'type' => $field->fields['type'],
+                        'check_value' => $cond['check_value'],
+                        'item' => $cond['item'],
+                        'items_id' => $cond['items_id'],
+                        'show_logic' => $cond['show_logic'],
+                        'show_condition' => $cond['show_condition'],
+                        'plugin_metademands_fields_id' => $cond['plugin_metademands_fields_id'],
+                        'fields_id' => $cond['plugin_metademands_fields_id'],
+                        'order' => $cond['order'],
+                    ];
+                }
             }
         }
 

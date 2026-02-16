@@ -421,9 +421,9 @@ class Dropdownobject extends CommonDBTM
                         foreach ($group_user_data as $groups) {
                             $requester_groups[] = $groups['id'];
                         }
-                        if (count($requester_groups) > 0) {
+//                        if (count($requester_groups) > 0) {
                             $right = "groups";
-                        }
+//                        }
                     }
                 }
 

@@ -363,8 +363,8 @@ class Group extends CommonDBChild
         $rand = mt_rand();
         echo "<div class='left'>";
         if ($canedit) {
-            Html::openMassiveActionsForm('mass' . __CLASS__ . $rand);
-            $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass' . __CLASS__ . $rand];
+            Html::openMassiveActionsForm('mass' . $rand);
+            $massiveactionparams = ['item' => __CLASS__, 'container' => 'mass'  . $rand];
             Html::showMassiveActions($massiveactionparams);
         }
         echo "<table class='tab_cadre_fixe'>";
@@ -374,7 +374,7 @@ class Group extends CommonDBChild
         echo "<tr>";
         echo "<th width='10'>";
         if ($canedit) {
-            echo Html::getCheckAllAsCheckbox('mass' . __CLASS__ . $rand);
+            echo Html::getCheckAllAsCheckbox('mass' . $rand);
         }
         echo "</th>";
         echo "<th>" . __('Name') . "</th>";

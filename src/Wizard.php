@@ -1641,6 +1641,7 @@ class Wizard extends CommonDBTM
 
         $updatestepform = 0;
         $havenextuser = true;
+
         if (!isset($stepConfig->fields['supervisor_validation'])
             && !isset($stepConfig->fields['link_user_block'])
             && !isset($stepConfig->fields['multiple_link_groups_blocks'])) {
@@ -1895,7 +1896,8 @@ class Wizard extends CommonDBTM
             } else {
                 $allfields[$fields["rank"]] = [$fields];
             }
-            if ($metademands->fields['step_by_step_mode'] == 1 && $fields['rank'] < $block_current_id_stepform) {
+            if ($metademands->fields['step_by_step_mode'] == 1
+                && $fields['rank'] < $block_current_id_stepform) {
                 $lineForStepByStep[$fields['id']] = $fields;
                 if (isset($values_saved[$fields['id']])) {
                     $data_form[$fields['id']] = $values_saved[$fields['id']];

@@ -578,6 +578,7 @@ class FieldParameter extends CommonDBChild
             //            'time_to_resolve',
             //         ];
             $granted_fields = [];
+
             if (($params['type'] == "dropdown_object"
                     && $params["item"] == "User")
                 || ($params['type'] == "dropdown_multiple"
@@ -665,7 +666,9 @@ class FieldParameter extends CommonDBChild
                 || ($params['type'] == "dropdown_multiple"
                     && $params["item"] == "Appliance")
                 || ($params['type'] == "dropdown_object"
-                    && \Ticket::isPossibleToAssignType($params["item"]))) {
+                    && \Ticket::isPossibleToAssignType($params["item"])
+                    && $params["item"] != "User"
+                    && $params["item"] != "Group")) {
                 $granted_fields = [
                     13,
                 ];

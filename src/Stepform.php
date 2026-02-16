@@ -1019,7 +1019,12 @@ class Stepform extends CommonDBTM
                     if (!empty($meta->fields['icon'])) {
                         $icon = $meta->fields['icon'];
                     }
-                    echo "<i class='sc-colorform bt-interface fa-menu-md fas $icon $fasize' style=\"font-family:'Font Awesome 6 Free', 'Font Awesome 6 Brands';\"></i>";//$style
+                    if (str_contains($icon, 'fa-')) {
+                        echo "<i class='sc-colorform bt-interface fa-menu-md fas $icon $fasize' style=\"font-family:'Font Awesome 6 Free', 'Font Awesome 6 Brands';\"></i>";//$style
+                    } else {
+                        echo "<i class='sc-colorform bt-interface fa-menu-md ti $icon $fasize' style=\"font-size: 3em;\"></i>";//$style
+                    }
+
                     echo "</div>";
 
                     echo "<br><p> <span class='sc-colorform'>";
